@@ -1,0 +1,105 @@
+Export the Owner Details sa wireless*80 nwna-pl-demo-01 , Owner.csv /home/dataextract/
+
+Starting copy...
+1 rows copied.
+Export the Site Details
+
+Starting copy...
+92 rows copied.
+Export the Driver Details
+
+Starting copy...
+159 rows copied.
+Running the PROC
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+[?1034hSQL> exec OnlineAVLDB.dbo.CreateExportTable
+SQLRowCount returns 1419
+SQL> Export the Vehicle Details
+
+Starting copy...
+1419 rows copied.
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+[?1034hSQL> exec OnlineAVLDB.dbo.CreateOwnerTime
+SQLRowCount returns 1
+SQL> Export the Owner Time Zone
+
+Starting copy...
+1 rows copied.
+Export the Vehicle Time Zone
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+[?1034hSQL> exec OnlineAVLDB.dbo.CreateVehicleTime
+SQLRowCount returns 1419
+SQL> 
+Starting copy...
+1419 rows copied.
+Export the User Details
+
+Starting copy...
+201 rows copied.
+Export the User Vehicle Details
+
+Starting copy...
+96065 rows copied.
+Export the Tenant KPI Details
+
+Starting copy...
+3 rows copied.
+Export the User office Details
+
+Starting copy...
+1 rows copied.
+Export the Driver Target Details
+
+Starting copy...
+23160 rows copied.
+Export the Vehicle Target Details
+
+Starting copy...
+24780 rows copied.
+Export the Activity Log Details  SELECT [ActivityLogID],[VehicleID],a.[OwnerID],[ActivityDateTime],[IgnitionOn],[HDG] ,[Speed],[EventSubTypeID],[IncrementalDistance],[ODOMeter],[TripDistance],[ReceivedDateTime],[DriverID],[SiteID] FROM OnlineAVLDB.[VehicleTrackingService].[ActivityLogReal] a inner join OnlineAVLDB.AuthService.Owner o on a.OwnerID=o.OwnerID where o.[DashboardEnabled] = 1 and ((a.version > (select p.version from OnlineAVLDB.dbo.BIDIMFacts p where p.OwnerID = a.OwnerID)) or ((a.version > 0 and not exists (select 'x' from OnlineAVLDB.dbo.BIDIMFacts p where p.OwnerID = a.OwnerID )) and (A.ActivityDateTime between '2014-04-01' and '2014-05-30' )))
+
+Starting copy...
+1772864 rows copied.
+Done - Data Extract
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+[?1034hSQL> delete from TABLE dbo.BIDIMFacts where exists (SELECT 'x' FROM OnlineAVLDB. AuthService.Owner o where o.[DashboardEnabled] = 1 and ((o.version > (select p.v ersion from OnlineAVLDB.dbo.BIDIMFacts p where o.OwnerID = p.OwnerID)) or (o.ver sion > 0 and not exists (select 'x' from OnlineAVLDB.dbo.BIDIMFacts p where o.Ow nerID = p.OwnerID)) and o.ownerID = dbo.BIDIMFacts.OwnerID
+SQL> Inserting data for Owner Dim Fact
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+[?1034hSQL> INSERT INTO [dbo].[BIDIMFacts] ([OwnerID]) SELECT OwnerID  FROM OnlineAVLDB .AuthService.Owner o where o.[DashboardEnabled] = 1 and ((o.version > (select p. version from OnlineAVLDB.dbo.BIDIMFacts p where o.OwnerID = p.OwnerID)) or (o.ve rsion > 0 and not exists (select 'x' from OnlineAVLDB.dbo.BIDIMFacts p where o.O wnerID = p.OwnerID)) ) 
+SQLRowCount returns 1
+SQL> Done

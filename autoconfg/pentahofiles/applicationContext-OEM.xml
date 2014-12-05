@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:pen="http://www.pentaho.com/schema/pentaho-system"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.pentaho.com/schema/pentaho-system http://www.pentaho.com/schema/pentaho-system.xsd 
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd" default-lazy-init="true">
+
+<!-- #######################################  Customer Specific Items        ############################## -->
+
+   <bean id="ssoFilterHelper" class="com.nwna.pentahocustom.NavmanFilterHelper">
+        <property name="parameterName"   value="userId" />
+        <property name="whereIsTheToken" value="parameter" />
+        <property name="tokenTimeout"    value="15" />
+        <property name="sessionVariableParameters">
+          <list>
+              <value>RoleType</value>
+              <value>RoleID</value>
+              <value>isCon</value>
+          </list>
+        </property>
+   </bean>
+
+<!-- #######################################  End of Customer Specific Items        ############################## -->
+
+
+<!-- #######################################  Filters ... added to the chain                 ############################## -->
+  
+
+<!--
+   <bean id="ssoFilterHelper" class="com.pentaho.oem.sk.filters.OEMFilterHelper">
+        <property name="parameterName"   value="secret" />
+        <property name="whereIsTheToken" value="parameter" />
+   </bean>
+-->
+
+   <bean id="ssoProcessingFilter" class="com.pentaho.oem.sk.filters.OEMGenericSSOFilter">
+        <property name="authenticationManager">
+            <ref bean="authenticationManager" />
+        </property>
+        <property name="filterHelper">
+            <ref bean="ssoFilterHelper" />
+        </property>
+    </bean>
+
+
+<!-- #######################################  Authenication Providers ...  used by filters   ############################## -->
+
+   <bean id="oemAuthenticationProvider" class="com.pentaho.oem.sk.authentication.OEMAuthenticationProvider">
+        <property name="userDetailsService">
+            <ref bean="oemMultiUserDetailsService" />
+        </property>
+   </bean>
+
+<!-- #######################################  UserDetails and Role List Services  ############################## -->
+
+
+<!--  ################################### Webservice UserDetails -->
+       <util:map id="webserviceRoleMap">
+            <entry key="Admin" value="Administrator"/>
+        </util:map>
+
+        <bean id="webserviceRoleMapper" class="org.pentaho.platform.engine.security.DefaultJdbcRoleMapper">
+           <constructor-arg>
+                 <ref local="webserviceRoleMap"/>
+           </constructor-arg>
+        </bean>
+
+
+    <bean id="webserviceUserDetailsService" class="com.pentaho.oem.sk.userrole.webservice.OEMWebServiceUserDetailsService">
+        <property name="serviceURL" value="file:///home/kevinh/pentaho/ImplementationToolbox/sample-xml/{secret}.xml"/>
+        <property name="roleMapper" ref="webserviceRoleMapper" />
+
+        <constructor-arg ref="tenantedUserNameUtils"/>
+    </bean>
+
+
+<!--  ################################### Webservice UserRoleList -->
+
+    <bean id="webserviceUserRoleListService" class="com.pentaho.oem.sk.userrole.webservice.OEMWebServiceUserRoleListService">
+    <constructor-arg ref="tenantedUserNameUtils"/>
+       <property name="parentUserDetailsService" ref="cachingMultiUserDetailsService" />
+       <property name="urlAllRoles" value="file:///home/kevinh/pentaho/ImplementationToolbox/sample-xml/allroles.xml"/>
+        <property name="urlAllUsers" value="file:///home/kevinh/pentaho/ImplementationToolbox/sample-xml/allusers.xml"/>
+        <property name="urlUsersInRole" value="file:///home/kevinh/pentaho/ImplementationToolbox/sample-xml/usersinrole.xml"/>
+    </bean>
+
+
+
+
+<!--  ################################### KTR UserDetails -->
+    <bean id="ktrUserDetailsService" class="com.pentaho.oem.sk.userrole.ktr.OEMKTRUserDetailsService">
+        <property name="serviceKTR" value="/home/kevinh/pentaho/ImplementationToolbox/otherFiles/userDetails.ktr"/>
+        <property name="tokenResolverKTR" value="/home/kevinh/pentaho/ImplementationToolbox/otherFiles/tokenResolver.ktr"/>
+
+        <constructor-arg ref="tenantedUserNameUtils"/>
+    </bean>
+
+<!--  ################################### KTR UserRoleList -->
+
+    <bean id="ktrUserRoleListService" class="com.pentaho.oem.sk.userrole.ktr.OEMKTRUserRoleListService">
+       <constructor-arg ref="tenantedUserNameUtils"/>
+       <property name="parentUserDetailsService" ref="cachingMultiUserDetailsService" />
+       <property name="ktrAllRoles"    value="/home/kevinh/pentaho/ImplementationToolbox/otherFiles/allroles.ktr"/>
+       <property name="ktrAllUsers"    value="/home/kevinh/pentaho/ImplementationToolbox/otherFiles/allusers.ktr"/>
+       <property name="ktrUsersInRole" value="/home/kevinh/pentaho/ImplementationToolbox/otherFiles/usersinrole.ktr"/>
+    </bean>
+
+
+<!-- ################################### JNDI UserDetails -->
+       <bean id="jndiUserDetailsService" class="com.pentaho.oem.sk.userrole.jndi.OEMJndiUserDetailsService">
+                <constructor-arg ref="tenantedUserNameUtils"/>
+                <!-- JNDI name to database connection. JNDI must be defined in context.xml in tomcat -->
+                <property name="jndiName" value="DataStore"/>
+                <!-- sql for calls -->
+                <!-- <property name="sqlRolesForUser" value="select r.name from code.role r JOIN config.atiuser u on r.roleid = u.roleid where u.userid = ?" /> -->
+                <property name="sqlRolesForUser" value="select KPIRole from dbo.BITenantKPITbl t join dbo.BIUsers u on u.OwnerSK = t.OwnerSK where u.UserSK = ?" />
+       </bean>
+
+<!-- ################################### JNDI UserRoleList -->
+       <bean id="jndiUserRoleListService" class="com.pentaho.oem.sk.userrole.jndi.OEMJndiUserRoleListService">
+                <constructor-arg ref="tenantedUserNameUtils"/>
+                <property name="parentUserDetailsService" ref="cachingMultiUserDetailsService" />
+                <!-- JNDI name to database connection. JNDI must be defined in context.xml in tomcat -->
+                <property name="jndiName" value="DataStore"/>
+                <!-- sql for calls -->
+                <property name="sqlAllRoles"     value="select distinct(name) from code.role" />
+                <property name="sqlAllUsers"     value="select userid from config.atiuser" />
+                <property name="sqlUsersInRole"  value="select u.userid from config.atiuser u JOIN code.role r on r.roleid = u.roleid where r.roleid = ?" />
+                <property name="sqlRolesForUser" value="select r.name from code.role r JOIN config.atiuser u on r.roleid = u.roleid where u.userid = ?" />
+       </bean>
+
+
+<!--  ################################### Workaround UserDetails -->
+    <bean id="WorkaroundUserDetailsService"
+        class="com.pentaho.oem.sk.userrole.workaround.OEMWorkaroundUserDetailsService">
+        <constructor-arg ref="tenantedUserNameUtils"/>
+    </bean>
+
+<!--  ################################### Workaround UserRoleList -->
+
+    <bean id="WorkaroundUserRoleListService"
+        class="com.pentaho.oem.sk.userrole.workaround.OEMWorkaroundUserRoleListService">
+        <constructor-arg ref="tenantedUserNameUtils"/>
+    </bean>
+
+
+<!-- #######################################  Multi (proxy) UserDetails and Role List Services - invoke by Auth Providers & others  ############################## -->
+
+<!-- ############################### Multi Details Service -->
+   <bean id="oemMultiUserDetailsService" class="com.pentaho.oem.sk.userrole.OEMMultiUserDetailsService">
+        <property name="userDetailsServices">
+           <list>
+
+           <!--  <ref bean="webserviceUserDetailsService" />
+            <ref bean="ktrUserDetailsService" />
+            <ref bean="workaroundUserDetailsService" /> -->
+
+            <ref bean="jndiUserDetailsService" />
+            <ref bean="userDetailsService" />
+           </list>
+        </property>
+<!-- remove this if you want it to be a primary, non caching implementation (sub services can cache if they want)
+    <pen:publish as-type="INTERFACES">
+      <pen:attributes>
+        <pen:attr key="priority" value="50"/>
+      </pen:attributes>
+    </pen:publish>
+-->
+   </bean>
+
+
+<!--   this is a caching implementation of the Multi-user details service  -->
+  <bean id="cachingMultiUserDetailsService" class="org.pentaho.platform.plugin.services.security.userrole.PentahoCachingUserDetailsService">
+    <constructor-arg>
+      <ref bean="oemMultiUserDetailsService"/> 
+    </constructor-arg>
+    <constructor-arg ref="tenantedUserNameUtils"/>
+
+    <property name="userCache" ref="ehCacheUserCache"/>   <!-- declared in pentahoObjects.spring.xml - create your own, if you use that cache there -->
+
+    <pen:publish as-type="INTERFACES">
+      <pen:attributes>
+        <pen:attr key="priority" value="50"/>
+      </pen:attributes>
+    </pen:publish>
+  </bean>
+
+<!-- ############################### Multi Role List Service -->
+   <bean id="oemMultiUserRoleListService" class="com.pentaho.oem.sk.userrole.OEMMultiUserRoleListService">
+        <constructor-arg ref="tenantedUserNameUtils"/>
+        <property name="userRoleListServices">
+           <list>
+
+<!--             <ref bean="webserviceUserRoleListService" />
+            <ref bean="ktrUserRoleListService" />
+            <ref bean="workaroundUserRoleListService" />
+ -->
+            <!-- <ref bean="jndiUserRoleListService" /> -->
+            <ref bean="userRoleListService" />
+           </list>
+        </property>
+    <pen:publish as-type="INTERFACES">
+      <pen:attributes>
+        <pen:attr key="priority" value="50"/>
+      </pen:attributes>
+    </pen:publish>
+   </bean>
+
+
+</beans>

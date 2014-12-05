@@ -1,0 +1,6 @@
+File '/home/dataextract/ActivityLogReal.csv' stored as 's3://onlineavldw/USA/ActivityLogReal.csv' (455560133 bytes in 650.2 seconds, 684.22 kB/s) [1 of 5]
+File '/home/dataextract/KPIDriverTargets.csv' stored as 's3://onlineavldw/USA/KPIDriverTargets.csv' (2437208 bytes in 7.4 seconds, 321.59 kB/s) [2 of 5]
+File '/home/dataextract/KPIVehicleTargets.csv' stored as 's3://onlineavldw/USA/KPIVehicleTargets.csv' (2609676 bytes in 2.5 seconds, 1015.06 kB/s) [3 of 5]
+File '/home/dataextract/UserVehicle.csv' stored as 's3://onlineavldw/USA/UserVehicle.csv' (10855345 bytes in 11.2 seconds, 946.02 kB/s) [4 of 5]
+File '/home/dataextract/Vehicle.csv' stored as 's3://onlineavldw/USA/Vehicle.csv' (275281 bytes in 0.5 seconds, 582.42 kB/s) [5 of 5]
+Done. Uploaded 471737643 bytes in 671.8 seconds, 685.74 kB/s

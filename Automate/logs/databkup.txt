@@ -1,0 +1,16 @@
+File s3://onlineavldw/USA/ copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/
+File s3://onlineavldw/USA/ActivityLogReal.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/ActivityLogReal.csv
+File s3://onlineavldw/USA/BITenantKPI.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/BITenantKPI.csv
+File s3://onlineavldw/USA/Driver.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/Driver.csv
+File s3://onlineavldw/USA/KPIDriverTargets.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/KPIDriverTargets.csv
+File s3://onlineavldw/USA/KPIVehicleTargets.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/KPIVehicleTargets.csv
+File s3://onlineavldw/USA/Owner.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/Owner.csv
+File s3://onlineavldw/USA/OwnerOfficeHours.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/OwnerOfficeHours.csv
+File s3://onlineavldw/USA/Site.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/Site.csv
+File s3://onlineavldw/USA/User.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/User.csv
+File s3://onlineavldw/USA/UserVehicle.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/UserVehicle.csv
+File s3://onlineavldw/USA/Vehicle.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/Vehicle.csv
+File s3://onlineavldw/USA/ownerTimeZoneData.txt copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/ownerTimeZoneData.txt
+File s3://onlineavldw/USA/vehicleTimeZoneData.txt copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/vehicleTimeZoneData.txt
+File s3://onlineavldw/USA/windowstimezone.csv copied to s3://onlineavldw/USA/PreviousData/'2014-05-30'/RawData/windowstimezone.csv
+Done

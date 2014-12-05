@@ -1,0 +1,36 @@
+<<<-----XXXX----  Creating Hadoop Directory Structure ----XXXX----->>>
+<<<-----XXXX----  Hadoop Directory Structure Complete ----XXXX----->>>
+<<<-----XXXX----  Copying Local Files ----XXXX----->>>
+<<<-----XXXX----  Copying of Local Files Complete ----XXXX----->>>
+<<<-----XXXX----  Copying Today's Data from S3 ----XXXX----->>>
+<<<-----XXXX----  Data Load From S3 Completed ----XXXX----->>>
+<<<-----XXXX----  Starting ESP Process  ----XXXX----->>>
+<<<-----XXXX----  ESP Process Complete ----XXXX----->>>
+<<<-----XXXX----  Starting VDV(PIG) process  ----XXXX----->>>
+<<<-----XXXX----  Running Current Data script  ----XXXX----->>>
+VehicleGroup: {group: (VehicleID: chararray,YearGroup: chararray,MonthGroup: chararray,DateGroup: chararray,OwnerID: chararray,DriverID: chararray,CustomerID: chararray,SiteID: chararray,GeofenceID: chararray),DayMonthFields: {(OwnerID: chararray,VehicleID: chararray,DriverID: chararray,CustomerID: chararray,SiteID: chararray,GeofenceID: chararray,EventSegmentTypeID: int,MonthGroup: chararray,DateGroup: chararray,YearGroup: chararray,Duration: long,Distance: float,StartDateTimeVTZ: int,EndDateTimeVTZ: int,StopDuration: int,StopCount: int)}}
+AggregatedDay: {VehicleID: chararray,YearGroup: chararray,MonthGroup: chararray,DateGroup: chararray,OwnerID: chararray,DriverID: chararray,CustomerID: chararray,SiteID: chararray,GeofenceID: chararray,OverspeedCount: long,OverspeedDistance: double,OverspeedDuration: long,IdleCount: long,IdleDuration: long,StopCount: long,StopDuration: long,RunCount: long,RunDistance: double,RunDuration: long,SiteVisitCount: long,DistanceOnSite: double,TimeOnSite: long,FirstStart: int,LastEnd: int,IsWeekend: boolean,DownTime: long}
+<<<-----XXXX----  Running Current Target script  ----XXXX----->>>
+<<<-----XXXX----  Running Merge Actuals and Target script  ----XXXX----->>>
+<<<-----XXXX----  Consolidating with Late Arrival Data  ----XXXX----->>>
+<<<-----XXXX----  VDV scripts completed Successfully  ----XXXX----->>>
+<<<-----XXXX---- SQOOPING DATA TO DW ----XXXX----->>>
+<<<-----XXXX---- TRUNCATING STAGING FACT TABLE ----XXXX----->>>
+Warning: /home/hadoop/hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /home/hadoop/BigDataPackage/sqoop-1.4.5.bin__hadoop-2.0.4-alpha/bin/../../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /home/hadoop/BigDataPackage/sqoop-1.4.5.bin__hadoop-2.0.4-alpha/bin/../../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /home/hadoop/BigDataPackage/sqoop-1.4.5.bin__hadoop-2.0.4-alpha/bin/../../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+<<<-----XXXX---- LOADING STAGING TABLE IN DW ----XXXX----->>>
+Warning: /home/hadoop/hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /home/hadoop/BigDataPackage/sqoop-1.4.5.bin__hadoop-2.0.4-alpha/bin/../../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /home/hadoop/BigDataPackage/sqoop-1.4.5.bin__hadoop-2.0.4-alpha/bin/../../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /home/hadoop/BigDataPackage/sqoop-1.4.5.bin__hadoop-2.0.4-alpha/bin/../../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+DATA PROCESSING AND AGGREGATION DONE SUCCESSFULLY

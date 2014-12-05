@@ -1,0 +1,1 @@
+Autoconfig.properties does  exists  /home/hadoop/BigDataPackage/hadoop.cfg
